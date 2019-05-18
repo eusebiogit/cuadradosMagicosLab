@@ -1,6 +1,6 @@
 package dominio;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  *
@@ -9,9 +9,7 @@ import java.util.Vector;
 public class CuadradoMagico {
 
     private int dimension;
-    private int contador;
     private int tablero[][];
-    private Vector<Integer> repetidos;
 
     /**
      * Crear cuadrado vacío
@@ -21,7 +19,6 @@ public class CuadradoMagico {
     public CuadradoMagico(int dimension) {
         this.dimension = dimension;
         this.tablero = new int[dimension][dimension];
-        this.contador = 0;
     }
 
     /**
@@ -32,18 +29,6 @@ public class CuadradoMagico {
     public CuadradoMagico(int tablero[][]) {
         this.dimension = tablero.length;
         this.tablero = tablero;
-        this.contador = this.dimension * this.dimension - 1;
-    }
-
-    /**
-     * Introduce un valor en la última posición
-     *
-     * @param valor
-     */
-    public void add(int valor) {
-        if (!this.estaCompleto()) {
-            this.putCasilla(this.contador / this.dimension, valor % this.dimension, valor);
-        }
     }
 
     /**
@@ -52,7 +37,22 @@ public class CuadradoMagico {
      * @return
      */
     public boolean estaCompleto() {
-        return this.contador >= this.dimension * this.dimension - 1;
+        boolean completo = true;
+        for (int i = 0; i < this.dimension; i++) {
+            for (int j = 0; j < this.dimension && completo; j++) {
+                completo &= this.tablero[i][j] != 0;
+            }
+        }
+        return completo;
+    }
+
+    public int getLimite() {
+        int limite = 0;
+        int fila[] = this.getFila(0);
+        for (int i = 0; i < this.dimension && fila[this.dimension - 1] != 0; i++) {
+            limite += fila[i];
+        }
+        return limite;
     }
 
     /**
@@ -61,6 +61,27 @@ public class CuadradoMagico {
     public int getDimension() {
         return dimension;
     }
+    
+    
+    public int CuadradoDeCuadrados(){
+        int cuadrados=0;
+        for(int i=0;i<this.dimension;i++){
+            for(int j=0;j<this.dimension;j++){
+                if(this.cuadradoEntero(this.tablero[i][j])){
+                    cuadrados++;
+                }
+            }
+        }
+        return cuadrados;
+    }
+    
+
+    private boolean cuadradoEntero(int n){
+        int raiz=(int) Math.sqrt((double)n);
+        return raiz*raiz==n;
+    }
+    
+    
 
     /**
      * Devuelve verdadero si el cuadrado es mágico:filas, columnas y diagonales
@@ -69,15 +90,16 @@ public class CuadradoMagico {
      * @return
      */
     public boolean esCorrecto() {
-        this.repetidos = new Vector<Integer>();
-        int sum = this.sumaDiagonal1();
-        boolean correcto = this.sumaDiagonal2() == sum;
-        correcto &= this.estaCompleto();
-        for (int i = 0; correcto && i < this.dimension; i++) {
-            correcto = this.sumaFila(i) == sum;
-            correcto &= this.sumaColumna(i) == sum;
+        boolean correcto = false;
+        if (this.estaCompleto()) {
+            int sum = this.sumaDiagonal1();
+            correcto = this.sumaDiagonal2() == sum;
+            correcto &= this.estaCompleto();
+            for (int i = 0; correcto && i < this.dimension; i++) {
+                correcto = this.sumaFila(i) == sum;
+                correcto &= this.sumaColumna(i) == sum;
+            }
         }
-        correcto &= this.repetidos.size() == this.dimension * this.dimension;
         return correcto;
     }
 
@@ -89,13 +111,12 @@ public class CuadradoMagico {
      */
     public int sumaFila(int fila) {
         int sum = 0;
-        int valor;
+        int valor=0;
         for (int i = 0; i < this.dimension; i++) {
             valor = this.tablero[fila][i];
-            if (!this.comprobarRepetidos(valor)) {
-                sum += valor;
-            }
+                sum = sum+valor;
         }
+
         return sum;
     }
 
@@ -129,20 +150,6 @@ public class CuadradoMagico {
         return sum;
     }
 
-    /**
-     * Comprueba que un valor no está repetido, en cuyo caso lo añade
-     *
-     * @param valor
-     * @return
-     */
-    public boolean comprobarRepetidos(int valor) {
-        boolean repetido = true;
-        if (!this.repetidos.contains(valor)) {
-            this.repetidos.add(valor);
-            repetido = false;
-        }
-        return repetido;
-    }
 
     /**
      * Suma la diagonal de empezando abajo izquierda
@@ -178,17 +185,68 @@ public class CuadradoMagico {
     public int getCasilla(int i, int j) {
         return this.tablero[i][j];
     }
-    
-    public int[] getFila(int fila){
+
+    /**
+     * Devuelve una fila
+     *
+     * @param fila
+     * @return
+     */
+    public int[] getFila(int fila) {
         return this.tablero[fila];
     }
     
-    public int[] getColumna(int col){
-        int []columna=new int[this.dimension];
-        for(int i=0;i<this.dimension;i++){
-            columna[i]=this.tablero[i][col];
+    public boolean esVacio(){
+        return this.tablero[0][0]==0;
+    }
+
+    /**
+     * Devuelve una columna
+     *
+     * @param col
+     * @return
+     */
+    public int[] getColumna(int col) {
+        int[] columna = new int[this.dimension];
+        for (int i = 0; i < this.dimension; i++) {
+            columna[i] = this.tablero[i][col];
         }
         return columna;
+    }
+
+    /**
+     * Introduce un valor en la última posición
+     *
+     * @param valor
+     */
+    public void add(int valor, int contador) {
+        if (!this.estaCompleto()) {
+            this.putCasilla(contador / this.dimension, contador % this.dimension, valor);
+        }
+    }
+    
+    public void quitar(int contador){
+        for(int i=this.dimension*this.dimension-1;i>=contador;i--){
+            this.putCasilla(i / this.dimension, i % this.dimension, 0);
+        }
+    }
+    
+    
+
+    /**
+     *
+     * @return
+     */
+    public int completitud() {
+        int contador = 0;
+        for (int i = 0; i < this.dimension; i++) {
+            for (int j = 0; j < this.dimension; j++) {
+                if (this.tablero[i][j] != 0) {
+                    contador++;
+                }
+            }
+        }
+        return contador;
     }
 
     /**
