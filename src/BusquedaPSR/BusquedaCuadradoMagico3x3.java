@@ -17,12 +17,20 @@ public class BusquedaCuadradoMagico3x3 {
     protected int limite;
     protected int max;
 
+    /**
+     * 
+     * @param limite 
+     */
     public BusquedaCuadradoMagico3x3(int limite) {
         cuadrado = new CuadradoMagico(3);
         this.limite = limite;
         this.max = 0;
     }
 
+    /**
+     * Estrategia de búsqueda en acción
+     * @return 
+     */
     public CuadradoMagico busqueda() {
         int casilla;
         int contador;
@@ -44,6 +52,11 @@ public class BusquedaCuadradoMagico3x3 {
         return cuadrado;
     }
 
+    /**
+     * Asignar valores según las restricciones
+     * @param contador
+     * @return 
+     */
     protected int asignar(int contador) {
         int var = 0;
         int var2 = 0;
@@ -89,16 +102,10 @@ public class BusquedaCuadradoMagico3x3 {
         return var;
     }
 
-    protected boolean repetido(int val, int repetidos[]) {
-        boolean repetido = false;
-        for (int i = 0; i < repetidos.length && !repetido; i++) {
-            repetido = repetidos[i] == val;
-        }
-        return repetido;
-    }
 
     /**
-     *
+     * Obtiene un número aleatorio entre dos valores dados
+     * @param init
      * @param limite
      * @return
      */

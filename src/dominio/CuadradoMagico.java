@@ -46,6 +46,10 @@ public class CuadradoMagico {
         return completo;
     }
 
+    /**
+     * Devuelve la suma de la fila aunque no esté completa
+     * @return 
+     */
     public int getLimite() {
         int limite = 0;
         int fila[] = this.getFila(0);
@@ -62,6 +66,10 @@ public class CuadradoMagico {
         return dimension;
     }
 
+    /**
+     * Cuenta los números con raíces cuadradas exactas que contiene el cuadrado
+     * @return 
+     */
     public int CuadradoDeCuadrados() {
         int cuadrados = 0;
         for (int i = 0; i < this.dimension; i++) {
@@ -74,6 +82,11 @@ public class CuadradoMagico {
         return cuadrados;
     }
 
+    /**
+     * Comprueba que un número tiene raíz cuadrada exacta
+     * @param n
+     * @return 
+     */
     private boolean cuadradoEntero(int n) {
         int raiz = (int) Math.sqrt(n);
         return raiz * raiz == n;
@@ -220,6 +233,10 @@ public class CuadradoMagico {
         }
     }
 
+    /**
+     * Quita un número del cuadrado en una determinada posición
+     * @param contador 
+     */
     public void quitar(int contador) {
         for (int i = this.dimension * this.dimension - 1; i >= contador; i--) {
             this.putCasilla(i / this.dimension, i % this.dimension, 0);
@@ -227,7 +244,8 @@ public class CuadradoMagico {
     }
 
     /**
-     *
+     *Cuenta los números que contiene el cuadrado exceptuando el 0 que se
+     * considera un hueco
      * @return
      */
     public int completitud() {
@@ -242,6 +260,10 @@ public class CuadradoMagico {
         return contador;
     }
 
+    /**
+     * Devuelve un código que identifica al cuadrado de forma única
+     * @return 
+     */
     @Override
     public int hashCode() {
         String res = "";
