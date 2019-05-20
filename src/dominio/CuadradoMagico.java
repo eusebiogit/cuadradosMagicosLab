@@ -61,27 +61,23 @@ public class CuadradoMagico {
     public int getDimension() {
         return dimension;
     }
-    
-    
-    public int CuadradoDeCuadrados(){
-        int cuadrados=0;
-        for(int i=0;i<this.dimension;i++){
-            for(int j=0;j<this.dimension;j++){
-                if(this.cuadradoEntero(this.tablero[i][j])){
+
+    public int CuadradoDeCuadrados() {
+        int cuadrados = 0;
+        for (int i = 0; i < this.dimension; i++) {
+            for (int j = 0; j < this.dimension; j++) {
+                if (this.cuadradoEntero(this.tablero[i][j])) {
                     cuadrados++;
                 }
             }
         }
         return cuadrados;
     }
-    
 
-    private boolean cuadradoEntero(int n){
-        int raiz=(int) Math.sqrt((double)n);
-        return raiz*raiz==n;
+    private boolean cuadradoEntero(int n) {
+        int raiz = (int) Math.sqrt(n);
+        return raiz * raiz == n;
     }
-    
-    
 
     /**
      * Devuelve verdadero si el cuadrado es mágico:filas, columnas y diagonales
@@ -111,10 +107,10 @@ public class CuadradoMagico {
      */
     public int sumaFila(int fila) {
         int sum = 0;
-        int valor=0;
+        int valor = 0;
         for (int i = 0; i < this.dimension; i++) {
             valor = this.tablero[fila][i];
-                sum = sum+valor;
+            sum = sum + valor;
         }
 
         return sum;
@@ -149,7 +145,6 @@ public class CuadradoMagico {
         }
         return sum;
     }
-
 
     /**
      * Suma la diagonal de empezando abajo izquierda
@@ -195,9 +190,9 @@ public class CuadradoMagico {
     public int[] getFila(int fila) {
         return this.tablero[fila];
     }
-    
-    public boolean esVacio(){
-        return this.tablero[0][0]==0;
+
+    public boolean esVacio() {
+        return this.tablero[0][0] == 0;
     }
 
     /**
@@ -224,14 +219,12 @@ public class CuadradoMagico {
             this.putCasilla(contador / this.dimension, contador % this.dimension, valor);
         }
     }
-    
-    public void quitar(int contador){
-        for(int i=this.dimension*this.dimension-1;i>=contador;i--){
+
+    public void quitar(int contador) {
+        for (int i = this.dimension * this.dimension - 1; i >= contador; i--) {
             this.putCasilla(i / this.dimension, i % this.dimension, 0);
         }
     }
-    
-    
 
     /**
      *
@@ -247,6 +240,17 @@ public class CuadradoMagico {
             }
         }
         return contador;
+    }
+
+    @Override
+    public int hashCode() {
+        String res = "";
+        for (int i = 0; i < this.tablero.length; i++) {
+            for (int j = 0; j < this.tablero.length; j++) {
+                res += this.tablero[i][j];
+            }
+        }
+        return (int) res.hashCode();
     }
 
     /**

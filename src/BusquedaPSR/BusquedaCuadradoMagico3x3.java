@@ -1,7 +1,9 @@
-package dominio;
+package BusquedaPSR;
 
+import dominio.CuadradoMagico;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Random;
 
 /**
@@ -10,10 +12,10 @@ import java.util.Random;
  */
 public class BusquedaCuadradoMagico3x3 {
 
-    private static final int dimension = 3;
-    private CuadradoMagico cuadrado;
-    private int limite;
-    private int max;
+    protected static final int dimension = 3;
+    protected CuadradoMagico cuadrado;
+    protected int limite;
+    protected int max;
 
     public BusquedaCuadradoMagico3x3(int limite) {
         cuadrado = new CuadradoMagico(3);
@@ -28,11 +30,11 @@ public class BusquedaCuadradoMagico3x3 {
             contador = this.cuadrado.completitud();
             casilla = this.asignar(contador);
             if (casilla > 0) {
-                    cuadrado.add(casilla, contador);
-                    if (contador >= this.max) {
-                        this.max = contador;
+                cuadrado.add(casilla, contador);
+                if (contador >= this.max) {
+                    this.max = contador;
 //                        System.out.println(cuadrado);
-                    }
+                }
             } else {
                 this.max = 0;
                 cuadrado = new CuadradoMagico(3);
@@ -42,7 +44,7 @@ public class BusquedaCuadradoMagico3x3 {
         return cuadrado;
     }
 
-    private int asignar(int contador) {
+    protected int asignar(int contador) {
         int var = 0;
         int var2 = 0;
         switch (contador) {
@@ -87,7 +89,7 @@ public class BusquedaCuadradoMagico3x3 {
         return var;
     }
 
-    private boolean repetido(int val, int repetidos[]) {
+    protected boolean repetido(int val, int repetidos[]) {
         boolean repetido = false;
         for (int i = 0; i < repetidos.length && !repetido; i++) {
             repetido = repetidos[i] == val;
@@ -100,8 +102,8 @@ public class BusquedaCuadradoMagico3x3 {
      * @param limite
      * @return
      */
-    public int getRandom(int init, int limite) {
-        
+    protected int getRandom(int init, int limite) {
+
         int res = 0;
         if (init < limite) {
             SecureRandom rand = new SecureRandom();

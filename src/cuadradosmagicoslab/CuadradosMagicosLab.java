@@ -1,6 +1,7 @@
 package cuadradosmagicoslab;
 
-import dominio.BusquedaCuadradoMagico3x3;
+import BusquedaPSR.BusquedaCuadradoMagico3x3;
+import BusquedaPSR.BusquedaCuadradoMagico3x3Cuadrados;
 import dominio.CuadradoMagico;
 
 /**
@@ -13,9 +14,17 @@ public class CuadradosMagicosLab {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        int datos[][] = {{4, 9, 2}, {3, 5, 7}, {8, 1, 6}};
 
-        BusquedaCuadradoMagico3x3 busqueda=new BusquedaCuadradoMagico3x3(10000000);
+        int init,limite;
+         if (args.length == 0) {
+             init=100;
+             limite=8000;
+        } else {
+                init = Integer.parseInt(args[0]);
+                limite = Integer.parseInt(args[1]);
+        }
+         
+        BusquedaCuadradoMagico3x3Cuadrados busqueda=new BusquedaCuadradoMagico3x3Cuadrados(init,limite);
         CuadradoMagico cuadrado=busqueda.busqueda();
         int cuadrados=cuadrado.CuadradoDeCuadrados();
         if(cuadrados==9){
